@@ -9,110 +9,116 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
 
-        /* 🔥 DYNAMIC THEME VARIABLES (Soft Text Colors) 🔥 */
+        /* 🔥 DYNAMIC THEME VARIABLES (Vibrant Colorful Palettes) 🔥 */
         :root { 
-            --primary: #0084ff; 
-            --secondary: #8a2be2; 
-            --text-main: #eaeaea; /* Softer Off-White for better readability */
-            --text-muted: #a0a5b5; /* Muted text for paragraphs */
+            --bg: #030407; /* Clear dark base */
+            --primary: #ff7e00; /* Vibrant Fiery Orange from background */
+            --primary-glow: rgba(255, 126, 0, 0.6);
+            --secondary: #0084ff; /* Cool Futuristic Blue from background */
+            --secondary-glow: rgba(0, 132, 255, 0.4);
+            --text-main: #eaeaea; /* Softer Off-White */
+            --text-muted: #b0b8c8; 
             --glass: rgba(255, 255, 255, 0.05);
             --border: rgba(255,255,255,0.1); 
-            --card-bg: rgba(10, 15, 25, 0.65); /* Glassy cards */
-            --gradient-1: #0084ff; --gradient-2: #0044aa; 
+            --card-bg: rgba(10, 15, 25, 0.7);
+            --gradient-1: #ff7e00; --gradient-2: #ffb347; --overlay: rgba(3,4,7,0.9);
         }
         
         [data-theme="light"] {
-            --primary: #0055cc; --secondary: #6a1b9a; 
-            --text-main: #111111; 
-            --text-muted: #444444; 
-            --glass: rgba(0, 0, 0, 0.05); --border: rgba(0, 0, 0, 0.1); --card-bg: rgba(255, 255, 255, 0.85);
-            --gradient-1: #0055cc; --gradient-2: #003388; 
+            --bg: #f4f7fc; --primary: #0055cc; --secondary: #6a1b9a; 
+            --primary-glow: rgba(0, 85, 204, 0.3); --secondary-glow: rgba(106, 27, 154, 0.3);
+            --text-main: #111111; --text-muted: #444444; 
+            --glass: rgba(0, 0, 0, 0.05); --border: rgba(0, 0, 0, 0.1); --card-bg: rgba(255, 255, 255, 0.9);
+            --gradient-1: #0055cc; --gradient-2: #003388; --overlay: rgba(244, 247, 252, 0.85);
         }
 
         body { color: var(--text-main); overflow-x: hidden; transition: 0.3s; }
         
-        /* 🚨 NEW IMAGE BACKGROUND SYSTEM 🚨 */
+        /* 🔥 Background elements (Tech Canvas) REMOVED for colorful background 🔥 */
+
+        /* 🚨 NEW FULL IMAGE BACKGROUND SYSTEM 🚨 */
         .main-bg {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            /* Aapki image yahan lag gayi hai */
-            background-image: url('NSS bg.jpg.png');
+            /* Using your uploaded image directly as background */
+            background-image: url('NSS bg.jpg');
             background-size: cover;
             background-position: center;
             z-index: -3;
             transition: 0.5s;
         }
 
-        /* Dark Glass Overlay taaki text clear dikhe aur image bhi feel ho */
+        /* Dark Glass Overlay, integrated with vibrant gradient touches */
         .main-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(135deg, rgba(3,4,7,0.85) 0%, rgba(3,4,7,0.95) 100%);
+            background: linear-gradient(to bottom, rgba(5,6,10,0.95) 0%, rgba(5,6,10,0.85) 50%, rgba(5,6,10,0.6) 100%);
             z-index: -2;
             pointer-events: none;
             transition: 0.5s;
         }
 
-        /* Light mode me overlay white-ish ho jayega */
+        /* Light mode me overlay white-ish vibrant ho jayega */
         [data-theme="light"] .main-overlay {
             background: rgba(244, 247, 252, 0.85);
         }
 
-        /* NAVBAR & HAMBURGER MENU (Ditto) */
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; position: fixed; width: 100%; top: 0; z-index: 1000; backdrop-filter: blur(25px); background: rgba(5, 10, 15, 0.4); border-bottom: 1px solid var(--border); transition: 0.5s; }
+        /* NAVBAR & HAMBURGER MENU (Ditto Layout, Softer Colors) */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; position: fixed; width: 100%; top: 0; z-index: 1000; backdrop-filter: blur(25px); background: rgba(5, 10, 15, 0.6); border-bottom: 1px solid var(--border); transition: 0.5s; }
         .logo { font-size: 26px; font-weight: 800; color: var(--text-main); letter-spacing: 1.5px; }
-        .logo span { color: var(--primary); }
+        .logo span { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
         .menu-toggle { display: none; color: var(--text-main); font-size: 28px; cursor: pointer; transition: 0.3s; z-index: 1100; }
         .nav-links { display: flex; gap: 30px; align-items: center; transition: 0.3s ease; }
-        .nav-links a { text-decoration: none; color: var(--text-main); opacity: 0.8; font-size: 15px; font-weight: 600; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); opacity: 1; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 15px; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
         
         .btn-get-started { background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white !important; padding: 10px 25px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; opacity: 1 !important; }
-        .btn-get-started:hover { transform: translateY(-3px); }
+        .btn-get-started:hover { transform: translateY(-3px); box-shadow: 0 8px 25px var(--primary-glow); }
 
-        /* FLOATING THEME TOGGLE BUTTON (Ditto) */
+        /* FLOATING THEME TOGGLE BUTTON (Ditto Layout) */
         .theme-toggle-btn {
             position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px; border-radius: 50%;
             background: var(--glass); border: 1px solid var(--border); color: var(--primary); font-size: 22px;
             cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); backdrop-filter: blur(10px); transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); backdrop-filter: blur(10px); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .theme-toggle-btn:hover { transform: scale(1.15) rotate(15deg); background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white; border-color: transparent; }
 
-        /* HERO SECTION (Ditto Layout) */
+        /* HERO SECTION (Ditto Layout, Colourful Touches) */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; padding: 0 5%; z-index: 1; }
         .hero p.top-tag { font-size: 14px; letter-spacing: 5px; color: var(--text-muted); margin-bottom: 20px; font-weight: 600; text-transform: uppercase; }
         .hero h1 { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800; line-height: 1.05; margin-bottom: 30px; letter-spacing: -1px; }
-        .hero h1 span { color: transparent; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; }
+        .hero h1 span { color: transparent; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; text-shadow: 0 0 15px var(--primary-glow); }
         
-        /* PREMIUM FLOATING ASSETS (Ditto) */
-        .asset { position: absolute; background: var(--glass); border: 1px solid var(--border); backdrop-filter: blur(20px); border-radius: 20px; animation: float 7s infinite ease-in-out; z-index: -1; box-shadow: 0 20px 50px rgba(0,0,0,0.3); transition: 0.5s; }
+        /* PREMIUM FLOATING ASSETS (Ditto Layout, Vibrant Styles) */
+        .asset { position: absolute; background: var(--glass); border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px); border-radius: 20px; animation: float 7s infinite ease-in-out; z-index: -1; box-shadow: 0 20px 50px rgba(0,0,0,0.3); transition: 0.5s; }
         .phone-mockup { width: 160px; height: 320px; top: 18%; left: 8%; border-radius: 25px; overflow: hidden; }
         .phone-mockup::before { content: ''; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 45px; height: 5px; background: rgba(128,128,128,0.3); border-radius: 10px; }
         .phone-mockup .internal { padding: 45px 15px; }
-        .phone-mockup .rect { width: 100%; height: 55px; background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent); border: 1px dashed rgba(255,255,255,0.1); margin-bottom: 12px; border-radius: 8px; }
+        .phone-mockup .rect { width: 100%; height: 55px; background: linear-gradient(135deg, rgba(255,255,255,0.02), transparent); border: 1px dashed rgba(255,255,255,0.05); margin-bottom: 12px; border-radius: 8px; }
         .code-window { width: 250px; height: 160px; top: 15%; right: 10%; padding: 18px; animation-delay: -2s; }
         .code-window .dots { display: flex; gap: 6px; margin-bottom: 18px; }
         .code-window .dot { width: 10px; height: 10px; background: var(--text-muted); border-radius: 50%; }
-        .code-window .line { height: 6px; background: rgba(255,255,255,0.05); margin-bottom: 10px; border-radius: 3px; }
+        .code-window .line { height: 6px; background: rgba(255,255,255,0.02); margin-bottom: 10px; border-radius: 3px; }
         @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-25px) rotate(2deg); } }
 
-        /* SECTIONS & GRID (Ditto) */
-        .section { padding: 120px 8%; position: relative; z-index: 1; }
+        /* SECTIONS & GRID (Colourful Touches) */
+        .section { padding: 120px 8%; position: relative; z-index: 1; transition: background 0.3s; }
         .title { text-align: center; font-size: 45px; margin-bottom: 60px; font-weight: 800; transition: 0.3s; }
+        .title span { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 35px; }
         .card { background: var(--card-bg); backdrop-filter: blur(20px); padding: 45px 30px; border-radius: 20px; border: 1px solid var(--border); text-align: center; transition: 0.4s; }
-        .card:hover { border-color: var(--primary); transform: translateY(-12px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+        .card:hover { border-color: var(--primary); transform: translateY(-12px); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
         .card h3 { margin-bottom: 15px; font-weight: 700; color: var(--text-main); }
         .card p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
-        .card i { font-size: 45px; color: var(--primary); margin-bottom: 25px; filter: drop-shadow(0 0 10px rgba(0, 132, 255, 0.4)); transition: 0.5s; }
+        .card i { font-size: 45px; color: var(--primary); margin-bottom: 25px; filter: drop-shadow(0 0 10px var(--primary-glow)); transition: 0.5s; }
 
-        /* SOCIAL MEDIA BUTTONS (Ditto) */
+        /* SOCIAL MEDIA BUTTONS (Vibrant Styles) */
         .social-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
         .social-btn { display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 50%; color: var(--primary); font-size: 30px; text-decoration: none; transition: 0.4s; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .social-btn:hover { transform: translateY(-8px) scale(1.1); background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white; border-color: transparent; }
+        .social-btn:hover { transform: translateY(-8px) scale(1.1); background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white; border-color: transparent; box-shadow: 0 15px 40px var(--primary-glow); }
 
-        /* FAQ & CONTACT (Ditto) */
+        /* FAQ & CONTACT (Colourful Layout, Softer Colors Ditto) */
         details { background: var(--card-bg); backdrop-filter: blur(20px); padding: 25px; border-radius: 15px; margin-bottom: 15px; border: 1px solid var(--border); cursor: pointer; transition: 0.3s; }
         details:hover { border-color: var(--primary); }
         summary { font-weight: 700; font-size: 18px; outline: none; color: var(--text-main); }
@@ -120,24 +126,24 @@
 
         .contact-box { max-width: 800px; margin: 0 auto; background: var(--card-bg); backdrop-filter: blur(25px); padding: 60px; border-radius: 30px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
         .contact-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        input, select, textarea { width: 100%; padding: 18px 22px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); color: var(--text-main); border-radius: 12px; outline: none; margin-bottom: 25px; font-size: 16px; transition: 0.3s; font-family: inherit; }
+        input, select, textarea { width: 100%; padding: 18px 22px; background: rgba(0,0,0,0.6); border: 1px solid var(--border); color: var(--text-main); border-radius: 12px; outline: none; margin-bottom: 25px; font-size: 16px; transition: 0.3s; font-family: inherit; }
         input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--border); }
         .btn-submit { width: 100%; padding: 20px; background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 18px; cursor: pointer; transition: 0.3s; }
-        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 15px 40px var(--gradient-1); }
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 15px 40px var(--primary-glow); }
         footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border); background: rgba(5, 10, 15, 0.8); position: relative; z-index: 1; }
 
         /* SUCCESS MODAL POPUP (Ditto) */
         .success-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s; }
         .success-modal.active { opacity: 1; pointer-events: all; }
-        .success-box { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; backdrop-filter: blur(20px); box-shadow: 0 20px 50px rgba(0,102,255,0.2); transform: scale(0.8); transition: 0.3s; }
+        .success-box { background: var(--card-bg); backdrop-filter: blur(20px); padding: 40px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; box-shadow: 0 20px 50px rgba(0,102,255,0.2); transform: scale(0.8); transition: 0.3s; }
         .success-modal.active .success-box { transform: scale(1); }
         .success-box i { font-size: 60px; color: #00c853; margin-bottom: 15px; }
 
-        /* MOBILE RESPONSIVE FIXES (Ditto) */
+        /* MOBILE RESPONSIVE FIXES (Ditto Layout) */
         @media (max-width: 1024px) { .phone-mockup, .code-window { display: none; } }
         @media (max-width: 768px) { 
             .menu-toggle { display: block; }
-            .nav-links { position: absolute; top: 100%; left: -100%; width: 100%; height: 100vh; background: rgba(5,10,15,0.95); flex-direction: column; padding: 100px 0; gap: 20px; z-index: 1000; overflow-y: auto; transition: 0.4s ease; }
+            .nav-links { position: absolute; top: 100%; left: -100%; width: 100%; height: 100vh; background: rgba(5,10,15,0.95); backdrop-filter: blur(20px); flex-direction: column; padding: 100px 0; gap: 20px; z-index: 1000; overflow-y: auto; transition: 0.4s ease; }
             .nav-links.active { left: 0; } 
             .contact-box { padding: 30px; } 
             .contact-inputs { grid-template-columns: 1fr; }
@@ -146,7 +152,7 @@
     </style>
 </head>
 <body>
-
+    
     <div class="main-bg"></div>
     <div class="main-overlay"></div>
 
@@ -285,11 +291,14 @@
             themeIcon.classList.replace('fa-sun', 'fa-moon');
         }
 
-        // 🚀 FETCH DATA FROM MYSQL (Ditto)
+        // Background adaptation script REMOVED
+
+        // 🚀 FETCH DATA FROM MYSQL DYNAMICALLY (Ditto, updated with muted color variable)
         async function loadProjects() {
             const projectList = document.getElementById('project-list-display');
             try {
-                const res = await fetch('get_projects.php?v=' + Date.now()); 
+                // Fetch dynamic projects (PHP)
+                const res = await fetch('get_projects.php'); 
                 const data = await res.json();
                 if(data.length > 0) {
                     projectList.innerHTML = data.map(p => `
@@ -303,7 +312,7 @@
                         </div>
                     `).join('');
                 } else { projectList.innerHTML = '<p style="text-align:center; width:100%; color: var(--text-muted);">No projects deployed yet.</p>'; }
-            } catch (e) { projectList.innerHTML = '<p style="text-align:center; width:100%; color:#ff3333;">Error loading projects.</p>'; }
+            } catch (e) { projectList.innerHTML = '<p style="text-align:center; width:100%; color:#ff3333;">Error loading projects. Check Database connection.</p>'; }
         }
 
         // 🚀 FETCH SOCIAL LINKS DYNAMICALLY (Ditto)
@@ -311,7 +320,8 @@
             const socialSection = document.getElementById('social-connect-section');
             const socialGrid = document.getElementById('social-links-display');
             try {
-                const res = await fetch('get_links.php?v=' + Date.now()); 
+                // Fetch dynamic social links (PHP)
+                const res = await fetch('get_links.php'); 
                 const data = await res.json();
                 if(data.length > 0) {
                     socialSection.style.display = "block";
@@ -334,6 +344,7 @@
             fd.append('type', document.getElementById('type').value);
             fd.append('msg', document.getElementById('msg').value);
 
+            // AJAX request to PHP
             fetch('submit_inquiry.php', { method: 'POST', body: fd })
             .then(r => r.text())
             .then(d => {
