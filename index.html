@@ -2,269 +2,331 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novex | Influencer Management Dealer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Novex Software Solution | Digital Empire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            scroll-behavior: smooth;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+
+        /* 🔥 DYNAMIC THEME VARIABLES (Simplified Text Colors) 🔥 */
+        :root { 
+            --bg: #030407; /* Clear dark base */
+            --primary: #0066ff; 
+            --secondary: #8a2be2; 
+            --text-main: #eaeaea; /* New Softer Off-White */
+            --text-muted: #b0b8c8; /* New Color for paragraph/muted text */
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255,255,255,0.1); 
+            --card-bg: rgba(15, 20, 30, 0.8);
+            --gradient-1: #0066ff; --gradient-2: #0044aa; --overlay: rgba(3,4,7,0.95);
+        }
+        
+        [data-theme="light"] {
+            --bg: #f4f7fc; --primary: #0055cc; --secondary: #6a1b9a; 
+            --text-main: #111111; /* Near Black */
+            --text-muted: #444444; /* Dark Grey */
+            --glass: rgba(0, 0, 0, 0.05); --border: rgba(0, 0, 0, 0.1); --card-bg: rgba(255, 255, 255, 0.9);
+            --gradient-1: #0055cc; --gradient-2: #003388; --overlay: rgba(244, 247, 252, 0.85);
         }
 
-        body { background-color: #0c0d11; color: #ffffff; overflow-x: hidden; }
+        body { background-color: var(--bg); color: var(--text-main); overflow-x: hidden; transition: 0.3s; }
+        
+        /* 🔥 Background elements (Tech Canvas) REMOVED for clean look 🔥 */
 
-        /* --- BUTTONS --- */
-        .btn { padding: 16px 32px; border-radius: 40px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.2s; text-transform: capitalize; border: none; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
-        .btn-white { background: #e0e0e0; color: #000; }
-        .btn-white:hover { background: #fff; }
-        .btn-outline { background: transparent; color: #fff; border: 1px solid #555; }
-        .btn-outline:hover { border-color: #fff; }
+        /* NAVBAR & HAMBURGER MENU (Ditto) */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; position: fixed; width: 100%; top: 0; z-index: 1000; backdrop-filter: blur(25px); background: rgba(5, 10, 15, 0.6); border-bottom: 1px solid var(--border); transition: 0.5s; }
+        .logo { font-size: 26px; font-weight: 800; color: var(--text-main); letter-spacing: 1.5px; }
+        .logo span { color: var(--primary); }
+        .menu-toggle { display: none; color: var(--text-main); font-size: 28px; cursor: pointer; transition: 0.3s; z-index: 1100; }
+        .nav-links { display: flex; gap: 30px; align-items: center; transition: 0.3s ease; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 15px; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        
+        .btn-get-started { background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white !important; padding: 10px 25px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .btn-get-started:hover { transform: translateY(-3px); }
 
-        /* --- NAVBAR --- */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 25px 6%; position: absolute; width: 100%; z-index: 1000; }
-        .logo { font-size: 24px; font-weight: 800; letter-spacing: -1px; text-transform: uppercase; }
-        .nav-links { display: flex; gap: 35px; }
-        .nav-links a { text-decoration: none; color: #a0a0a0; font-size: 0.9rem; transition: 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: #ffffff; }
-        .btn-contact { background: transparent; color: #fff; border: 1px solid #333; padding: 10px 20px; border-radius: 30px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; cursor: pointer; }
-
-        /* --- NEW HERO SECTION (Image Exactly Match) --- */
-        .hero { position: relative; padding: 120px 6% 50px; min-height: 100vh; display: flex; align-items: center; }
-        
-        .hero-text { position: relative; z-index: 10; max-width: 65%; }
-        .hero-text h1 { font-size: clamp(3.5rem, 7vw, 6.5rem); font-weight: 800; line-height: 1.0; letter-spacing: -3px; margin-bottom: 25px; }
-        .hero-text p { font-size: clamp(1.2rem, 2vw, 1.4rem); color: #a0a0a0; margin-bottom: 40px; line-height: 1.5; }
-        
-        .obj-megaphone { display: inline-block; font-size: clamp(2rem, 4vw, 3.5rem); transform: rotate(-15deg); margin-left: 10px; vertical-align: middle; }
-        
-        /* The Big Right Image Container */
-        .hero-image-container { position: absolute; right: 2%; top: 10%; width: 50%; height: 85%; border-radius: 40px; overflow: hidden; z-index: 1; background: #000; box-shadow: -20px 20px 50px rgba(0,0,0,0.5); }
-        .hero-image-container img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(1.1); opacity: 0.7; }
-        
-        /* Gradient overlay so text on left stays readable */
-        .image-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, #0c0d11 5%, transparent 40%); }
-        
-        /* Floating Elements on Image */
-        .chart-pod { position: absolute; background: rgba(20, 20, 20, 0.9); padding: 12px 24px; border-radius: 30px; border: 1px solid #333; color: #fff; font-size: 0.9rem; font-weight: 600; z-index: 5; display: flex; align-items: center; gap: 10px; }
-        .pod-brands { top: 30%; left: 10%; }
-        .pod-creators { bottom: 25%; right: 10%; }
-        
-        .obj-dollar { position: absolute; font-size: 3rem; color: #00ff66; right: 8%; top: 40%; transform: rotate(15deg); z-index: 5; text-shadow: 0 5px 15px rgba(0,255,102,0.3); }
-
-        /* --- MULTI-SECTION SERVICES (Aapki Strict Request = NO CHANGES HERE) --- */
-        .services { padding: 50px 6% 100px; position: relative; z-index: 3; }
-        .services-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; }
-        .services-header h2 { font-size: 3rem; font-weight: 800; letter-spacing: -1px; }
-        
-        .scrollbar-track { width: 200px; height: 2px; background: #333; position: relative; display: flex; align-items: center; }
-        .scrollbar-thumb { width: 40px; height: 40px; background: #222; border: 2px solid #555; border-radius: 50%; position: absolute; left: 20%; display: flex; justify-content: center; align-items: center; color: #666; font-size: 0.8rem; }
-
-        .tier-section { margin-bottom: 90px; }
-        .tier-header { margin-bottom: 40px; }
-        .tier-title { font-size: 1.8rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 15px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .tier-subtitle { color: #888; font-size: 1rem; margin-left: 45px; }
-
-        /* STRICT 3 COLUMNS GRID (LOCKED FOR ALL SCREENS) */
-        .cards-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); /* Hamesha 3 column rahenge */
-            gap: 25px; 
-            width: 100%;
+        /* FLOATING THEME TOGGLE BUTTON (Ditto) */
+        .theme-toggle-btn {
+            position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px; border-radius: 50%;
+            background: var(--glass); border: 1px solid var(--border); color: var(--primary); font-size: 22px;
+            cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); backdrop-filter: blur(10px); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .theme-toggle-btn:hover { transform: scale(1.15) rotate(15deg); background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white; border-color: transparent; }
 
-        .card { 
-            background: linear-gradient(180deg, #1d1e22 0%, #0d0e11 100%); 
-            border: 1px solid #2a2a2c; 
-            border-radius: 20px; 
-            padding: 30px; 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
-            transition: 0.3s; 
-            display: flex;
-            flex-direction: column;
-        }
-        .card:hover { transform: translateY(-8px); border-color: #666; box-shadow: 0 20px 40px rgba(0,0,0,0.7); }
-        .card-header { display: flex; justify-content: space-between; color: #666; margin-bottom: 25px; }
+        /* HERO SECTION (Layout Ditto, Colors Softened) */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; padding: 0 5%; z-index: 1; }
+        .hero p.top-tag { font-size: 14px; letter-spacing: 5px; color: var(--text-muted); margin-bottom: 20px; font-weight: 600; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800; line-height: 1.05; margin-bottom: 30px; letter-spacing: -1px; }
+        .hero h1 span { color: transparent; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; }
         
-        .card-main-icon { font-size: 4rem; margin-bottom: 20px; text-align: center; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
-        .card h3 { font-size: 1.2rem; margin-bottom: 15px; font-weight: 700; color: #fff; text-align: center; }
-        .card p { font-size: 0.9rem; color: #a0a0a0; line-height: 1.5; margin-bottom: 15px; text-align: center; flex-grow: 1; }
-        
-        .positive-tag { background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 12px; font-size: 0.75rem; color: #00f0ff; font-weight: 600; border: 1px solid rgba(0, 240, 255, 0.2); text-align: center; }
+        /* PREMIUM FLOATING ASSETS (Ditto) */
+        .asset { position: absolute; background: var(--glass); border: 1px solid var(--border); backdrop-filter: blur(20px); border-radius: 20px; animation: float 7s infinite ease-in-out; z-index: -1; box-shadow: 0 20px 50px rgba(0,0,0,0.3); transition: 0.5s; }
+        .phone-mockup { width: 160px; height: 320px; top: 18%; left: 8%; border-radius: 25px; overflow: hidden; }
+        .phone-mockup::before { content: ''; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 45px; height: 5px; background: rgba(128,128,128,0.3); border-radius: 10px; }
+        .phone-mockup .internal { padding: 45px 15px; }
+        .phone-mockup .rect { width: 100%; height: 55px; background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent); border: 1px dashed rgba(255,255,255,0.1); margin-bottom: 12px; border-radius: 8px; }
+        .code-window { width: 250px; height: 160px; top: 15%; right: 10%; padding: 18px; animation-delay: -2s; }
+        .code-window .dots { display: flex; gap: 6px; margin-bottom: 18px; }
+        .code-window .dot { width: 10px; height: 10px; background: var(--text-muted); border-radius: 50%; }
+        .code-window .line { height: 6px; background: rgba(255,255,255,0.05); margin-bottom: 10px; border-radius: 3px; }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-25px) rotate(2deg); } }
 
-        /* --- MOBILE RESPONSIVE --- */
-        @media (max-width: 900px) {
-            /* Hero Adjustments for Mobile */
-            .hero { align-items: flex-start; padding-top: 120px; }
-            .hero-text { max-width: 100%; z-index: 10; }
-            .hero-image-container { width: 95%; right: 2.5%; top: 5%; height: 90%; z-index: 1; opacity: 0.4; border-radius: 30px; } /* Set behind text on mobile */
-            .image-overlay { background: linear-gradient(to right, #0c0d11 10%, transparent 100%); }
-            .nav-links { display: none; }
+        /* SECTIONS & GRID (Ditto, Colors Softened) */
+        .section { padding: 120px 8%; position: relative; z-index: 1; transition: background 0.3s; }
+        .title { text-align: center; font-size: 45px; margin-bottom: 60px; font-weight: 800; transition: 0.3s; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 35px; }
+        .card { background: var(--card-bg); backdrop-filter: blur(15px); padding: 45px 30px; border-radius: 20px; border: 1px solid var(--border); text-align: center; transition: 0.4s; }
+        .card:hover { border-color: var(--primary); transform: translateY(-12px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
+        .card h3 { margin-bottom: 15px; font-weight: 700; }
+        .card p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+        .card i { font-size: 45px; color: var(--primary); margin-bottom: 25px; filter: drop-shadow(0 0 10px var(--primary-glow)); transition: 0.5s; }
 
-            /* Services Mobile Adjustments (Kept exactly same as your approved code) */
-            .cards-grid { gap: 8px; }
-            .card { padding: 12px; border-radius: 12px; }
-            .card-header { margin-bottom: 15px; font-size: 0.7rem; }
-            .card-main-icon { font-size: 2rem; margin-bottom: 10px; }
-            .card h3 { font-size: 0.75rem; margin-bottom: 8px; }
-            .card p { font-size: 0.6rem; line-height: 1.3; margin-bottom: 10px; }
-            .positive-tag { font-size: 0.5rem; padding: 4px 6px; }
-            .tier-title { font-size: 1.2rem; justify-content: center; }
-            .tier-header { text-align: center; }
-            .tier-subtitle { margin-left: 0; font-size: 0.85rem; }
-            .services-header h2 { font-size: 2rem; }
-            .scrollbar-track { display: none; }
+        /* SOCIAL MEDIA BUTTONS (Ditto) */
+        .social-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .social-btn { display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 50%; color: var(--primary); font-size: 30px; text-decoration: none; transition: 0.4s; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .social-btn:hover { transform: translateY(-8px) scale(1.1); background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white; border-color: transparent; }
+
+        /* FAQ & CONTACT (Layout Ditto, Colors Softened) */
+        details { background: var(--card-bg); padding: 25px; border-radius: 15px; margin-bottom: 15px; border: 1px solid var(--border); cursor: pointer; transition: 0.3s; }
+        details:hover { background: rgba(10, 15, 25, 0.9); }
+        summary { font-weight: 700; font-size: 18px; outline: none; }
+        details p { margin-top: 15px; color: var(--text-muted); line-height: 1.8; }
+
+        .contact-box { max-width: 800px; margin: 0 auto; background: var(--card-bg); backdrop-filter: blur(25px); padding: 60px; border-radius: 30px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .contact-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        input, select, textarea { width: 100%; padding: 18px 22px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); color: var(--text-main); border-radius: 12px; outline: none; margin-bottom: 25px; font-size: 16px; transition: 0.3s; font-family: inherit; }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--border); }
+        .btn-submit { width: 100%; padding: 20px; background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 18px; cursor: pointer; transition: 0.3s; }
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 15px 40px var(--gradient-1); }
+        footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border); background: rgba(5, 10, 15, 0.8); position: relative; z-index: 1; }
+
+        /* SUCCESS MODAL POPUP (Ditto) */
+        .success-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s; }
+        .success-modal.active { opacity: 1; pointer-events: all; }
+        .success-box { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; box-shadow: 0 20px 50px rgba(0,102,255,0.2); transform: scale(0.8); transition: 0.3s; }
+        .success-modal.active .success-box { transform: scale(1); }
+        .success-box i { font-size: 60px; color: #00c853; margin-bottom: 15px; }
+
+        /* MOBILE RESPONSIVE FIXES (Ditto) */
+        @media (max-width: 1024px) { .phone-mockup, .code-window { display: none; } }
+        @media (max-width: 768px) { 
+            .menu-toggle { display: block; }
+            .nav-links { position: absolute; top: 100%; left: -100%; width: 100%; height: 100vh; background: rgba(5,10,15,0.95); flex-direction: column; padding: 100px 0; gap: 20px; z-index: 1000; overflow-y: auto; transition: 0.4s ease; }
+            .nav-links.active { left: 0; } 
+            .contact-box { padding: 30px; } 
+            .contact-inputs { grid-template-columns: 1fr; }
+            .theme-toggle-btn { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 18px; }
         }
-
-        /* --- BOTTOM CTA --- */
-        .cta-bottom { padding: 0 6% 80px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .cta-header-flex { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
-        .cta-header-flex h2 { font-size: 2rem; font-weight: 700; }
-        .btn-cta { background: #e0e0e0; color: #000; padding: 18px 50px; border-radius: 30px; font-weight: 700; font-size: 1.1rem; border: none; cursor: pointer; box-shadow: 0 10px 20px rgba(255,255,255,0.05); }
     </style>
 </head>
 <body>
+    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Switch Theme">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
 
-    <nav class="navbar">
-        <div class="logo">NOVEX</div>
-        <div class="nav-links">
-            <a href="#" class="active">Home</a>
-            <a href="#services">Services</a>
-            <a href="#">Case Studies</a>
+    <div class="success-modal" id="successModal">
+        <div class="success-box">
+            <i class="fas fa-check-circle"></i>
+            <h2 style="margin-bottom: 10px;">Inquiry Sent Successfully!</h2>
+            <p style="color:var(--text-muted);">Our team will contact you shortly.</p>
+            <button class="btn-submit" style="margin-top:20px; padding: 10px 20px; width:auto;" onclick="document.getElementById('successModal').classList.remove('active')">Awesome!</button>
         </div>
-        <button class="btn-contact">Contact Us <span class="arrow-bubble">➔</span></button>
+    </div>
+
+    <nav>
+        <div class="logo">NOVEX<span>.</span></div>
+        <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+        <div class="nav-links" id="nav-links">
+            <a href="#services">Services</a>
+            <a href="#projects">Work</a>
+            <a href="about.html" target="_blank">About</a>
+            <a href="#contact" class="btn-get-started">Get Started</a>
+        </div>
     </nav>
 
-    <section class="hero">
+    <header class="hero">
+        <p class="top-tag">LEADING DIGITAL TECH AND MARKETING AGENCY</p>
+        <h1 id="hero-title">Build Your <br><span>Digital Empire</span></h1>
+        <button class="btn-submit" style="width: auto; padding: 18px 45px;" onclick="location.href='#contact'">Explore Solutions</button>
         
-        <div class="hero-image-container">
-            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80" alt="Influencer">
-            <div class="image-overlay"></div>
-            
-            <div class="chart-pod pod-brands">🏢 Brands</div>
-            <div class="chart-pod pod-creators">📸 Creators</div>
-            <div class="obj-dollar">💲</div>
-        </div>
+        <div class="asset phone-mockup"><div class="internal"><div class="rect"></div><div class="rect" style="width: 70%;"></div><div class="rect" style="width: 50%;"></div></div></div>
+        <div class="asset code-window"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><div class="line" style="width: 80%;"></div><div class="line" style="width: 40%;"></div><div class="line" style="width: 90%;"></div></div>
+    </header>
 
-        <div class="hero-text">
-            <h1>Powering <span class="obj-megaphone">📢</span><br>the<br>Future<br>of<br>Influencer<br>Marketing</h1>
-            <p>Grow your brand <br>with top influencers ❤️</p>
-            <div style="display: flex; gap: 15px;">
-                <button class="btn btn-white">Get Started</button>
-                <button class="btn btn-outline">Watch Video</button>
-            </div>
+    <section id="services" class="section">
+        <h2 class="title" id="services-title">Our Services</h2>
+        <div class="grid">
+            <div class="card"><i class="fas fa-robot"></i><h3>Telegram Bot</h3><p>Custom automated bots for your workflows.</p></div>
+            <div class="card"><i class="fas fa-laptop-code"></i><h3>Website Dev</h3><p>High-converting modern websites.</p></div>
+            <div class="card"><i class="fas fa-pen-nib"></i><h3>UI/UX Design</h3><p>Pixel-perfect digital interfaces.</p></div>
+            <div class="card"><i class="fas fa-gem"></i><h3>Brand Logo</h3><p>Unique identity for your brand.</p></div>
+            <div class="card"><i class="fas fa-bullhorn"></i><h3>Ads Creation</h3><p>High-ROI digital marketing ad campaigns.</p></div>
         </div>
     </section>
 
-    <section class="services" id="services">
-        <div class="services-header">
-            <h2>Novex Ecosystem</h2>
-            <div class="scrollbar-track"><div class="scrollbar-thumb">🤍</div></div>
-        </div>
-
-        <div class="tier-section">
-            <div class="tier-header">
-                <h3 class="tier-title"><span>🚀</span> Our Core Services</h3>
-                <p class="tier-subtitle">We build the perfect bridge between brands and creators.</p>
-            </div>
-            
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-header"><span>❮</span><span>🤍</span></div>
-                    <span class="card-main-icon">♟️</span>
-                    <h3>Influencer Strategy</h3>
-                    <p>Brand ke liye right influencers + planning.</p>
-                    <div class="positive-tag">Perfect start!</div>
-                </div>
-                <div class="card">
-                    <div class="card-header"><span>❮</span><span>🤍</span></div>
-                    <span class="card-main-icon">🤝</span>
-                    <h3>Creator Collaboration</h3>
-                    <p>Top creators ke sath deals & partnerships.</p>
-                    <div class="positive-tag">Elite network</div>
-                </div>
-                <div class="card">
-                    <div class="card-header"><span>❮</span><span>🤍</span></div>
-                    <span class="card-main-icon">🎯</span>
-                    <h3>Campaign Management</h3>
-                    <p>End-to-end campaign handling.</p>
-                    <div class="positive-tag">100% execution</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="tier-section">
-            <div class="tier-header">
-                <h3 class="tier-title"><span>🎯</span> What We Deliver</h3>
-                <p class="tier-subtitle">Real results that matter to your brand and audience.</p>
-            </div>
-            
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-header"><span>❮</span><span>🤍</span></div>
-                    <span class="card-main-icon">🚀</span>
-                    <h3>Brand Growth</h3>
-                    <p>Followers & reach increase.</p>
-                    <div class="positive-tag">High impact</div>
-                </div>
-                <div class="card">
-                    <div class="card-header"><span>❮</span><span>🤍</span></div>
-                    <span class="card-main-icon">🔥</span>
-                    <h3>High Engagement</h3>
-                    <p>Likes, comments, shares boost.</p>
-                    <div class="positive-tag">Viral vibes</div>
-                </div>
-                <div class="card">
-                    <div class="card-header"><span>❮</span><span>🤍</span></div>
-                    <span class="card-main-icon">🌍</span>
-                    <h3>Targeted Audience</h3>
-                    <p>Right audience tak ads & content.</p>
-                    <div class="positive-tag">Real customers</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="tier-section">
-            <div class="tier-header">
-                <h3 class="tier-title"><span>💎</span> Why Choose Novex</h3>
-                <p class="tier-subtitle">The most reliable and transparent agency for your growth.</p>
-            </div>
-            
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-header"><span>❮</span><span>🤍</span></div>
-                    <span class="card-main-icon">📊</span>
-                    <h3>Data Strategy</h3>
-                    <p>Har decision data pe based.</p>
-                    <div class="positive-tag">No guesswork</div>
-                </div>
-                <div class="card">
-                    <div class="card-header"><span>❮</span><span>🤍</span></div>
-                    <span class="card-main-icon">💎</span>
-                    <h3>Top Network</h3>
-                    <p>Verified & trusted creators.</p>
-                    <div class="positive-tag">Trusted partners</div>
-                </div>
-                <div class="card">
-                    <div class="card-header"><span>❮</span><span>🤍</span></div>
-                    <span class="card-main-icon">🏆</span>
-                    <h3>Proven Results</h3>
-                    <p>Real growth & ROI focus.</p>
-                    <div class="positive-tag">Winning ROI</div>
-                </div>
-            </div>
+    <section id="projects" class="section">
+        <h2 class="title">Featured Projects</h2>
+        <div class="grid" id="project-list-display">
+            <p style="text-align: center; width: 100%; color: var(--text-muted);">Fetching live projects from Database...</p>
         </div>
     </section>
 
-    <section class="cta-bottom">
-        <div class="cta-header-flex">
-            <h2>Ready to boost your brand?</h2>
-            <span style="color: #666; font-size: 1.5rem;">❯</span>
-        </div>
-        <button class="btn-cta">Book a Call</button>
+    <section id="social-connect-section" class="section" style="padding-top: 50px; padding-bottom: 50px; display: none;">
+        <h2 class="title" style="font-size: 35px; margin-bottom: 40px;">Connect With Us</h2>
+        <div class="social-grid" id="social-links-display">
+            </div>
     </section>
 
+    <section class="section" style="max-width: 900px; margin: 0 auto; padding-top: 50px;">
+        <h2 class="title" style="font-size: 35px;">FAQ & Privacy</h2>
+        <details><summary>How long does it take to build a website?</summary><p>Depends on complexity. A standard corporate site takes 1-2 weeks, while advanced platforms may take longer.</p></details>
+        <details><summary>Do you provide maintenance for Telegram Bots?</summary><p>Yes, we provide full support, hosting, and API updates for all custom bots we develop.</p></details>
+        <details><summary>Privacy Policy</summary><p>Your data is completely secure. We only use your WhatsApp number and Name to contact you regarding your inquiry. We do not share data with 3rd parties.</p></details>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="contact-box">
+            <h2 class="title" style="margin-bottom: 40px; font-size: 35px;">Start Your Project</h2>
+            <form id="contactForm" onsubmit="sendInquiry(event)">
+                <div class="contact-inputs">
+                    <input type="text" id="name" placeholder="Full Name" required>
+                    <input type="number" id="number" placeholder="WhatsApp Number" required>
+                </div>
+                <select id="type" required>
+                    <option value="" disabled selected>Select Service...</option>
+                    <option value="Telegram Bot">Telegram Bot</option>
+                    <option value="Website Development">Website Development</option>
+                    <option value="UI/UX Design">UI/UX Design</option>
+                    <option value="Brand Logo">Brand Logo</option>
+                    <option value="Ads Creation">Ads Creation</option>
+                </select>
+                <textarea id="msg" placeholder="Message (Optional)..." style="min-height:100px; resize: none;"></textarea>
+                <button type="submit" class="btn-submit" id="submitBtn">Send Inquiry to Novex</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p style="font-size: 14px; font-weight: 600; color: var(--text-muted);">© 2026 Novex Software Solution | Engineered by Raj Tiwari</p>
+    </footer>
+
+    <script>
+        // MOBILE HAMBURGER MENU LOGIC (Ditto)
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+        const icon = mobileMenu.querySelector('i');
+        
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active'); 
+            icon.classList.toggle('fa-bars'); 
+            icon.classList.toggle('fa-times');
+        });
+        
+        document.querySelectorAll('.nav-links a').forEach(item => {
+            item.addEventListener('click', () => { 
+                navLinks.classList.remove('active'); 
+                icon.classList.replace('fa-times', 'fa-bars'); 
+            });
+        });
+
+        // 🔥 FLOATING THEME BUTTON LOGIC (Ditto, updated variables) 🔥
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('novex_theme', newTheme);
+            
+            const themeIcon = document.getElementById('themeIcon');
+            if(newTheme === 'light') {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        // LOAD SAVED THEME (Ditto)
+        const savedTheme = localStorage.getItem('novex_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        const themeIcon = document.getElementById('themeIcon');
+        if(savedTheme === 'light') {
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            themeIcon.classList.replace('fa-sun', 'fa-moon');
+        }
+
+        // Background adaptation script REMOVED
+
+        // 🚀 FETCH DATA FROM MYSQL (Ditto, uses colors softened muted variable)
+        async function loadProjects() {
+            const projectList = document.getElementById('project-list-display');
+            try {
+                const res = await fetch('get_projects.php'); 
+                const data = await res.json();
+                if(data.length > 0) {
+                    projectList.innerHTML = data.map(p => `
+                        <div class="card" style="padding: 30px; text-align: left; display:flex; flex-direction:column; justify-content:space-between;">
+                            <div>
+                                <i class="fas fa-folder-open" style="font-size: 30px; margin-bottom: 15px;"></i>
+                                <h3 style="font-size: 24px; margin-bottom: 10px;">${p.name}</h3>
+                                <p style="margin-bottom:25px; font-size:14px;">Live Deployment</p>
+                            </div>
+                            <a href="${p.link}" target="_blank" style="display:inline-block; text-align:center; color:#fff; background:linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); padding:12px; border-radius:8px; text-decoration:none; font-size: 15px; font-weight:800; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">Explore Live Project ↗</a>
+                        </div>
+                    `).join('');
+                } else { projectList.innerHTML = '<p style="text-align:center; width:100%; color: var(--text-muted);">No projects deployed yet.</p>'; }
+            } catch (e) { projectList.innerHTML = '<p style="text-align:center; width:100%; color:#ff3333;">Error loading projects. Check Database connection.</p>'; }
+        }
+
+        // 🚀 FETCH SOCIAL LINKS DYNAMICALLY (Ditto)
+        async function loadSocialLinks() {
+            const socialSection = document.getElementById('social-connect-section');
+            const socialGrid = document.getElementById('social-links-display');
+            try {
+                const res = await fetch('get_links.php'); 
+                const data = await res.json();
+                if(data.length > 0) {
+                    socialSection.style.display = "block";
+                    socialGrid.innerHTML = data.map(link => `
+                        <a href="${link.url}" target="_blank" class="social-btn"><i class="${link.platform === 'link' ? 'fas fa-link' : 'fab fa-' + link.platform}"></i></a>
+                    `).join('');
+                } else { socialSection.style.display = "none"; }
+            } catch (e) { socialSection.style.display = "none"; }
+        }
+
+        // 🚀 SUBMIT INQUIRY LOGIC (Ditto)
+        function sendInquiry(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "Sending...";
+
+            const fd = new FormData();
+            fd.append('name', document.getElementById('name').value);
+            fd.append('phone', document.getElementById('number').value);
+            fd.append('type', document.getElementById('type').value);
+            fd.append('msg', document.getElementById('msg').value);
+
+            fetch('submit_inquiry.php', { method: 'POST', body: fd })
+            .then(r => r.text())
+            .then(d => {
+                if(d.includes("Success")) {
+                    document.getElementById('successModal').classList.add('active');
+                    document.getElementById('contactForm').reset();
+                } else {
+                    alert("Error! Please check submit_inquiry.php.");
+                }
+                btn.innerText = "Send Inquiry to Novex";
+            })
+            .catch(err => {
+                alert("Network error.");
+                btn.innerText = "Send Inquiry to Novex";
+            });
+        }
+
+        // 🚀 MASTER LOAD
+        window.onload = () => { loadProjects(); loadSocialLinks(); };
+    </script>
 </body>
 </html>
