@@ -1,369 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Novex Software Solution | Digital Empire</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+import telebot
+from telebot import types
 
-        /* 🔥 DYNAMIC THEME VARIABLES (Vibrant Colorful Palettes) 🔥 */
-        :root { 
-            --bg: #030407; /* Clear dark base */
-            --primary: #ff7e00; /* Vibrant Fiery Orange from background */
-            --primary-glow: rgba(255, 126, 0, 0.6);
-            --secondary: #0084ff; /* Cool Futuristic Blue from background */
-            --secondary-glow: rgba(0, 132, 255, 0.4);
-            --text-main: #eaeaea; /* Softer Off-White */
-            --text-muted: #b0b8c8; 
-            --glass: rgba(255, 255, 255, 0.05);
-            --border: rgba(255,255,255,0.1); 
-            --card-bg: rgba(10, 15, 25, 0.7);
-            --gradient-1: #ff7e00; --gradient-2: #ffb347; --overlay: rgba(3,4,7,0.9);
-        }
-        
-        [data-theme="light"] {
-            --bg: #f4f7fc; --primary: #0055cc; --secondary: #6a1b9a; 
-            --primary-glow: rgba(0, 85, 204, 0.3); --secondary-glow: rgba(106, 27, 154, 0.3);
-            --text-main: #111111; --text-muted: #444444; 
-            --glass: rgba(0, 0, 0, 0.05); --border: rgba(0, 0, 0, 0.1); --card-bg: rgba(255, 255, 255, 0.9);
-            --gradient-1: #0055cc; --gradient-2: #003388; --overlay: rgba(244, 247, 252, 0.85);
-        }
+# 1. Aapka Telegram Bot Token
+TOKEN = '8769016149:AAE_JBgF0_ufr__00JvrH5JLRNL-VZ24cBc'
+bot = telebot.TeleBot(TOKEN)
 
-        body { color: var(--text-main); overflow-x: hidden; transition: 0.3s; }
-        
-        /* 🔥 Background elements (Tech Canvas) REMOVED for colorful background 🔥 */
-
-        /* 🚨 NEW FULL IMAGE BACKGROUND SYSTEM 🚨 */
-        .main-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            /* Using your uploaded image directly as background */
-            background-image: url('NSS bg.jpg.png');
-            background-size: cover;
-            background-position: center;
-            z-index: -3;
-            transition: 0.5s;
-        }
-
-        /* Dark Glass Overlay, integrated with vibrant gradient touches */
-        .main-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(to bottom, rgba(5,6,10,0.95) 0%, rgba(5,6,10,0.85) 50%, rgba(5,6,10,0.6) 100%);
-            z-index: -2;
-            pointer-events: none;
-            transition: 0.5s;
-        }
-
-        /* Light mode me overlay white-ish vibrant ho jayega */
-        [data-theme="light"] .main-overlay {
-            background: rgba(244, 247, 252, 0.85);
-        }
-
-        /* NAVBAR & HAMBURGER MENU (Ditto Layout, Softer Colors) */
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; position: fixed; width: 100%; top: 0; z-index: 1000; backdrop-filter: blur(25px); background: rgba(5, 10, 15, 0.6); border-bottom: 1px solid var(--border); transition: 0.5s; }
-        .logo { font-size: 26px; font-weight: 800; color: var(--text-main); letter-spacing: 1.5px; }
-        .logo span { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
-        .menu-toggle { display: none; color: var(--text-main); font-size: 28px; cursor: pointer; transition: 0.3s; z-index: 1100; }
-        .nav-links { display: flex; gap: 30px; align-items: center; transition: 0.3s ease; }
-        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 15px; font-weight: 600; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
-        
-        .btn-get-started { background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white !important; padding: 10px 25px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; opacity: 1 !important; }
-        .btn-get-started:hover { transform: translateY(-3px); box-shadow: 0 8px 25px var(--primary-glow); }
-
-        /* FLOATING THEME TOGGLE BUTTON (Ditto Layout) */
-        .theme-toggle-btn {
-            position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px; border-radius: 50%;
-            background: var(--glass); border: 1px solid var(--border); color: var(--primary); font-size: 22px;
-            cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); backdrop-filter: blur(10px); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .theme-toggle-btn:hover { transform: scale(1.15) rotate(15deg); background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white; border-color: transparent; }
-
-        /* HERO SECTION (Ditto Layout, Colourful Touches) */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; padding: 0 5%; z-index: 1; }
-        .hero p.top-tag { font-size: 14px; letter-spacing: 5px; color: var(--text-muted); margin-bottom: 20px; font-weight: 600; text-transform: uppercase; }
-        .hero h1 { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800; line-height: 1.05; margin-bottom: 30px; letter-spacing: -1px; }
-        .hero h1 span { color: transparent; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; text-shadow: 0 0 15px var(--primary-glow); }
-        
-        /* PREMIUM FLOATING ASSETS (Ditto Layout, Vibrant Styles) */
-        .asset { position: absolute; background: var(--glass); border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px); border-radius: 20px; animation: float 7s infinite ease-in-out; z-index: -1; box-shadow: 0 20px 50px rgba(0,0,0,0.3); transition: 0.5s; }
-        .phone-mockup { width: 160px; height: 320px; top: 18%; left: 8%; border-radius: 25px; overflow: hidden; }
-        .phone-mockup::before { content: ''; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 45px; height: 5px; background: rgba(128,128,128,0.3); border-radius: 10px; }
-        .phone-mockup .internal { padding: 45px 15px; }
-        .phone-mockup .rect { width: 100%; height: 55px; background: linear-gradient(135deg, rgba(255,255,255,0.02), transparent); border: 1px dashed rgba(255,255,255,0.05); margin-bottom: 12px; border-radius: 8px; }
-        .code-window { width: 250px; height: 160px; top: 15%; right: 10%; padding: 18px; animation-delay: -2s; }
-        .code-window .dots { display: flex; gap: 6px; margin-bottom: 18px; }
-        .code-window .dot { width: 10px; height: 10px; background: var(--text-muted); border-radius: 50%; }
-        .code-window .line { height: 6px; background: rgba(255,255,255,0.02); margin-bottom: 10px; border-radius: 3px; }
-        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-25px) rotate(2deg); } }
-
-        /* SECTIONS & GRID (Colourful Touches) */
-        .section { padding: 120px 8%; position: relative; z-index: 1; transition: background 0.3s; }
-        .title { text-align: center; font-size: 45px; margin-bottom: 60px; font-weight: 800; transition: 0.3s; }
-        .title span { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 35px; }
-        .card { background: var(--card-bg); backdrop-filter: blur(20px); padding: 45px 30px; border-radius: 20px; border: 1px solid var(--border); text-align: center; transition: 0.4s; }
-        .card:hover { border-color: var(--primary); transform: translateY(-12px); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
-        .card h3 { margin-bottom: 15px; font-weight: 700; color: var(--text-main); }
-        .card p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
-        .card i { font-size: 45px; color: var(--primary); margin-bottom: 25px; filter: drop-shadow(0 0 10px var(--primary-glow)); transition: 0.5s; }
-
-        /* SOCIAL MEDIA BUTTONS (Vibrant Styles) */
-        .social-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .social-btn { display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 50%; color: var(--primary); font-size: 30px; text-decoration: none; transition: 0.4s; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .social-btn:hover { transform: translateY(-8px) scale(1.1); background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white; border-color: transparent; box-shadow: 0 15px 40px var(--primary-glow); }
-
-        /* FAQ & CONTACT (Colourful Layout, Softer Colors Ditto) */
-        details { background: var(--card-bg); backdrop-filter: blur(20px); padding: 25px; border-radius: 15px; margin-bottom: 15px; border: 1px solid var(--border); cursor: pointer; transition: 0.3s; }
-        details:hover { border-color: var(--primary); }
-        summary { font-weight: 700; font-size: 18px; outline: none; color: var(--text-main); }
-        details p { margin-top: 15px; color: var(--text-muted); line-height: 1.8; }
-
-        .contact-box { max-width: 800px; margin: 0 auto; background: var(--card-bg); backdrop-filter: blur(25px); padding: 60px; border-radius: 30px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
-        .contact-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        input, select, textarea { width: 100%; padding: 18px 22px; background: rgba(0,0,0,0.6); border: 1px solid var(--border); color: var(--text-main); border-radius: 12px; outline: none; margin-bottom: 25px; font-size: 16px; transition: 0.3s; font-family: inherit; }
-        input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--border); }
-        .btn-submit { width: 100%; padding: 20px; background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 18px; cursor: pointer; transition: 0.3s; }
-        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 15px 40px var(--primary-glow); }
-        footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border); background: rgba(5, 10, 15, 0.8); position: relative; z-index: 1; }
-
-        /* SUCCESS MODAL POPUP (Ditto) */
-        .success-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s; }
-        .success-modal.active { opacity: 1; pointer-events: all; }
-        .success-box { background: var(--card-bg); backdrop-filter: blur(20px); padding: 40px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; box-shadow: 0 20px 50px rgba(0,102,255,0.2); transform: scale(0.8); transition: 0.3s; }
-        .success-modal.active .success-box { transform: scale(1); }
-        .success-box i { font-size: 60px; color: #00c853; margin-bottom: 15px; }
-
-        /* MOBILE RESPONSIVE FIXES (Ditto Layout) */
-        @media (max-width: 1024px) { .phone-mockup, .code-window { display: none; } }
-        @media (max-width: 768px) { 
-            .menu-toggle { display: block; }
-            .nav-links { position: absolute; top: 100%; left: -100%; width: 100%; height: 100vh; background: rgba(5,10,15,0.95); backdrop-filter: blur(20px); flex-direction: column; padding: 100px 0; gap: 20px; z-index: 1000; overflow-y: auto; transition: 0.4s ease; }
-            .nav-links.active { left: 0; } 
-            .contact-box { padding: 30px; } 
-            .contact-inputs { grid-template-columns: 1fr; }
-            .theme-toggle-btn { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 18px; }
-        }
-    </style>
-</head>
-<body>
+# 2. Start Command - VIP Buttons wala menu
+@bot.message_handler(commands=['start'])
+def welcome(message):
+    markup = types.InlineKeyboardMarkup(row_width=2)
     
-    <div class="main-bg"></div>
-    <div class="main-overlay"></div>
+    # Buttons setup
+    item1 = types.InlineKeyboardButton("💰 Services", callback_data='services')
+    item2 = types.InlineKeyboardButton("🌐 Portfolio", callback_data='portfolio')
+    item3 = types.InlineKeyboardButton("📈 Pricing", callback_data='pricing')
+    item4 = types.InlineKeyboardButton("🗣 Contact Raj", callback_data='contact')
+    item5 = types.InlineKeyboardButton("❓ Help", callback_data='help')
+    item6 = types.InlineKeyboardButton("🌐 Website ↗", url="https://novexsoftwaresolution.page.gd")
 
-    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Switch Theme">
-        <i class="fas fa-moon" id="themeIcon"></i>
-    </button>
+    markup.add(item1, item2, item3, item4, item5, item6)
+    
+    bot.send_message(message.chat.id, f"Welcome to *Novex Software Solution*! 🚀\n\nMain aapka personal assistant hoon. Aap niche diye gaye options se mujhse baat kar sakte hain:", 
+                     parse_mode='Markdown', reply_markup=markup)
 
-    <div class="success-modal" id="successModal">
-        <div class="success-box">
-            <i class="fas fa-check-circle"></i>
-            <h2 style="margin-bottom: 10px;">Inquiry Sent Successfully!</h2>
-            <p style="color:var(--text-muted);">Our team will contact you shortly.</p>
-            <button class="btn-submit" style="margin-top:20px; padding: 10px 20px; width:auto;" onclick="document.getElementById('successModal').classList.remove('active')">Awesome!</button>
-        </div>
-    </div>
-
-    <nav>
-        <div class="logo">NOVEX<span>.</span></div>
-        <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
-        <div class="nav-links" id="nav-links">
-            <a href="#services">Services</a>
-            <a href="#projects">Work</a>
-            <a href="about.html" target="_blank">About</a>
-            <a href="#contact" class="btn-get-started">Get Started</a>
-        </div>
-    </nav>
-
-    <header class="hero">
-        <p class="top-tag">LEADING DIGITAL TECH AND MARKETING AGENCY</p>
-        <h1 id="hero-title">Build Your <br><span>Digital Empire</span></h1>
-        <button class="btn-submit" style="width: auto; padding: 18px 45px;" onclick="location.href='#contact'">Explore Solutions</button>
-        
-        <div class="asset phone-mockup"><div class="internal"><div class="rect"></div><div class="rect" style="width: 70%;"></div><div class="rect" style="width: 50%;"></div></div></div>
-        <div class="asset code-window"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><div class="line" style="width: 80%;"></div><div class="line" style="width: 40%;"></div><div class="line" style="width: 90%;"></div></div>
-    </header>
-
-    <section id="services" class="section">
-        <h2 class="title" id="services-title">Our Services</h2>
-        <div class="grid">
-            <div class="card"><i class="fas fa-robot"></i><h3>Telegram Bot</h3><p>Custom automated bots for your workflows.</p></div>
-            <div class="card"><i class="fas fa-laptop-code"></i><h3>Website Dev</h3><p>High-converting modern websites.</p></div>
-            <div class="card"><i class="fas fa-pen-nib"></i><h3>UI/UX Design</h3><p>Pixel-perfect digital interfaces.</p></div>
-            <div class="card"><i class="fas fa-gem"></i><h3>Brand Logo</h3><p>Unique identity for your brand.</p></div>
-            <div class="card"><i class="fas fa-bullhorn"></i><h3>Ads Creation</h3><p>High-ROI digital marketing ad campaigns.</p></div>
-        </div>
-    </section>
-
-    <section id="projects" class="section">
-        <h2 class="title">Featured Projects</h2>
-        <div class="grid" id="project-list-display">
-            <p style="text-align: center; width: 100%; color: var(--text-muted);">Fetching live projects from Database...</p>
-        </div>
-    </section>
-
-    <section id="social-connect-section" class="section" style="padding-top: 50px; padding-bottom: 50px; display: none;">
-        <h2 class="title" style="font-size: 35px; margin-bottom: 40px;">Connect With Us</h2>
-        <div class="social-grid" id="social-links-display">
-            </div>
-    </section>
-
-    <section class="section" style="max-width: 900px; margin: 0 auto; padding-top: 50px;">
-        <h2 class="title" style="font-size: 35px;">FAQ & Privacy</h2>
-        <details><summary>How long does it take to build a website?</summary><p>Depends on complexity. A standard corporate site takes 1-2 weeks, while advanced platforms may take longer.</p></details>
-        <details><summary>Do you provide maintenance for Telegram Bots?</summary><p>Yes, we provide full support, hosting, and API updates for all custom bots we develop.</p></details>
-        <details><summary>Privacy Policy</summary><p>Your data is completely secure. We only use your WhatsApp number and Name to contact you regarding your inquiry. We do not share data with 3rd parties.</p></details>
-    </section>
-
-    <section id="contact" class="section">
-        <div class="contact-box">
-            <h2 class="title" style="margin-bottom: 40px; font-size: 35px;">Start Your Project</h2>
-            <form id="contactForm" onsubmit="sendInquiry(event)">
-                <div class="contact-inputs">
-                    <input type="text" id="name" placeholder="Full Name" required>
-                    <input type="number" id="number" placeholder="WhatsApp Number" required>
-                </div>
-                <select id="type" required>
-                    <option value="" disabled selected>Select Service...</option>
-                    <option value="Telegram Bot">Telegram Bot</option>
-                    <option value="Website Development">Website Development</option>
-                    <option value="UI/UX Design">UI/UX Design</option>
-                    <option value="Brand Logo">Brand Logo</option>
-                    <option value="Ads Creation">Ads Creation</option>
-                </select>
-                <textarea id="msg" placeholder="Message (Optional)..." style="min-height:100px; resize: none;"></textarea>
-                <button type="submit" class="btn-submit" id="submitBtn">Send Inquiry to Novex</button>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <p style="font-size: 14px; font-weight: 600; color: var(--text-muted);">© 2026 Novex Software Solution | Engineered by Raj Tiwari</p>
-    </footer>
-
-    <script>
-        // MOBILE HAMBURGER MENU LOGIC (Ditto)
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navLinks = document.getElementById('nav-links');
-        const icon = mobileMenu.querySelector('i');
-        
-        mobileMenu.addEventListener('click', () => {
-            navLinks.classList.toggle('active'); 
-            icon.classList.toggle('fa-bars'); 
-            icon.classList.toggle('fa-times');
-        });
-        
-        document.querySelectorAll('.nav-links a').forEach(item => {
-            item.addEventListener('click', () => { 
-                navLinks.classList.remove('active'); 
-                icon.classList.replace('fa-times', 'fa-bars'); 
-            });
-        });
-
-        // 🔥 FLOATING THEME BUTTON LOGIC (Ditto) 🔥
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+# 3. Button Click Handling Logic (Bina AI API ke)
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+    try:
+        if call.message:
+            if call.data == 'services':
+                bot.send_message(call.message.chat.id, "🛠 *Our Services:*\n\n• Custom Website Development\n• Advanced Telegram Bots\n• UI/UX Design\n• API Integrations")
             
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('novex_theme', newTheme);
+            elif call.data == 'portfolio':
+                bot.send_message(call.message.chat.id, "📂 *Portfolio:*\nHumne kaafi high-performance projects banaye hain. Aap live kaam yahan dekh sakte hain: [Click Here](https://novexsoftwaresolution.page.gd/work)", parse_mode='Markdown')
             
-            const themeIcon = document.getElementById('themeIcon');
-            if(newTheme === 'light') {
-                themeIcon.classList.replace('fa-moon', 'fa-sun');
-            } else {
-                themeIcon.classList.replace('fa-sun', 'fa-moon');
-            }
-        }
+            elif call.data == 'pricing':
+                bot.send_message(call.message.chat.id, "💰 *Plans:*\n\n1. Starter: ₹4,999\n2. Pro Empire: ₹14,999\n3. Enterprise: ₹34,999")
+            
+            elif call.data == 'contact':
+                bot.send_message(call.message.chat.id, "🗣 Direct founder, *Raj Tiwari* se connect hone ke liye apna *WhatsApp Number* yahan bhejein.")
+            
+            elif call.data == 'help':
+                bot.send_message(call.message.chat.id, "❓ *Help Menu:*\nAap menu buttons ka use karke mujhse details le sakte hain. Kisi bhi complex query ke liye /contact use karein.")
 
-        // LOAD SAVED THEME (Ditto)
-        const savedTheme = localStorage.getItem('novex_theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        const themeIcon = document.getElementById('themeIcon');
-        if(savedTheme === 'light') {
-            themeIcon.classList.replace('fa-moon', 'fa-sun');
-        } else {
-            themeIcon.classList.replace('fa-sun', 'fa-moon');
-        }
+    except Exception as e:
+        print(repr(e))
 
-        // Background adaptation script REMOVED
+# 4. Lead Capture (Phone number detect karna)
+@bot.message_handler(func=lambda message: True)
+def handle_text(message):
+    text = message.text.lower()
+    
+    # Agar user number bheje
+    if len(text) == 10 and text.isdigit():
+        bot.reply_to(message, "Dhanyawad! Maine aapka number note kar liya hai. Raj Tiwari aapse jaldi hi WhatsApp par connect karenge.")
+    
+    # Normal keyword replies
+    elif "hello" in text or "hi" in text:
+        bot.send_message(message.chat.id, "Hi Boss! Kaise help karoon? /start dabayein menu ke liye.")
+    else:
+        bot.send_message(message.chat.id, "Maaf kijiye, main abhi buttons ke through hi behtar samajh sakta hoon. Please /start use karein.")
 
-        // 🚀 FETCH DATA FROM MYSQL DYNAMICALLY (Ditto, updated with muted color variable)
-        async function loadProjects() {
-            const projectList = document.getElementById('project-list-display');
-            try {
-                // Fetch dynamic projects (PHP)
-                const res = await fetch('get_projects.php'); 
-                const data = await res.json();
-                if(data.length > 0) {
-                    projectList.innerHTML = data.map(p => `
-                        <div class="card" style="padding: 30px; text-align: left; display:flex; flex-direction:column; justify-content:space-between;">
-                            <div>
-                                <i class="fas fa-folder-open" style="font-size: 30px; margin-bottom: 15px;"></i>
-                                <h3 style="font-size: 24px; margin-bottom: 10px;">${p.name}</h3>
-                                <p style="margin-bottom:25px; font-size:14px;">Live Deployment</p>
-                            </div>
-                            <a href="${p.link}" target="_blank" style="display:inline-block; text-align:center; color:#fff; background:linear-gradient(135deg, var(--gradient-1), var(--gradient-2)); padding:12px; border-radius:8px; text-decoration:none; font-size: 15px; font-weight:800; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">Explore Live Project ↗</a>
-                        </div>
-                    `).join('');
-                } else { projectList.innerHTML = '<p style="text-align:center; width:100%; color: var(--text-muted);">No projects deployed yet.</p>'; }
-            } catch (e) { projectList.innerHTML = '<p style="text-align:center; width:100%; color:#ff3333;">Error loading projects. Check Database connection.</p>'; }
-        }
-
-        // 🚀 FETCH SOCIAL LINKS DYNAMICALLY (Ditto)
-        async function loadSocialLinks() {
-            const socialSection = document.getElementById('social-connect-section');
-            const socialGrid = document.getElementById('social-links-display');
-            try {
-                // Fetch dynamic social links (PHP)
-                const res = await fetch('get_links.php'); 
-                const data = await res.json();
-                if(data.length > 0) {
-                    socialSection.style.display = "block";
-                    socialGrid.innerHTML = data.map(link => `
-                        <a href="${link.url}" target="_blank" class="social-btn"><i class="${link.platform === 'link' ? 'fas fa-link' : 'fab fa-' + link.platform}"></i></a>
-                    `).join('');
-                } else { socialSection.style.display = "none"; }
-            } catch (e) { socialSection.style.display = "none"; }
-        }
-
-        // 🚀 SUBMIT INQUIRY LOGIC (Ditto)
-        function sendInquiry(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.innerText = "Sending...";
-
-            const fd = new FormData();
-            fd.append('name', document.getElementById('name').value);
-            fd.append('phone', document.getElementById('number').value);
-            fd.append('type', document.getElementById('type').value);
-            fd.append('msg', document.getElementById('msg').value);
-
-            // AJAX request to PHP
-            fetch('submit_inquiry.php', { method: 'POST', body: fd })
-            .then(r => r.text())
-            .then(d => {
-                if(d.includes("Success")) {
-                    document.getElementById('successModal').classList.add('active');
-                    document.getElementById('contactForm').reset();
-                } else {
-                    alert("Error! Please check submit_inquiry.php.");
-                }
-                btn.innerText = "Send Inquiry to Novex";
-            })
-            .catch(err => {
-                alert("Network error.");
-                btn.innerText = "Send Inquiry to Novex";
-            });
-        }
-
-        // 🚀 MASTER LOAD
-        window.onload = () => { loadProjects(); loadSocialLinks(); };
-    </script>
-</body>
-</html>
+# Bot ko start karna
+print("Novex Bot is running...")
+bot.polling(none_stop=True)
